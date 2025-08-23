@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NavAI Lab - 智能定位导航实验室</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            },
+            accent: {
+              50: '#fdf4ff',
+              100: '#fae8ff',
+              200: '#f5d0fe',
+              300: '#f0abfc',
+              400: '#e879f9',
+              500: '#d946ef',
+              600: '#c026d3',
+              700: '#a21caf',
+              800: '#86198f',
+              900: '#701a75',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gradient">NavAI Lab</h1>
+      <nav class="space-x-6 text-gray-600 font-medium">
+        <a href="#about" class="hover:text-primary-600 transition-colors duration-300">关于我们</a>
+        <a href="#research" class="hover:text-primary-600 transition-colors duration-300">研究方向</a>
+        <a href="#team" class="hover:text-primary-600 transition-colors duration-300">团队成员</a>
+        <a href="#publications" class="hover:text-primary-600 transition-colors duration-300">研究成果</a>
+        <a href="#contact" class="hover:text-primary-600 transition-colors duration-300">联系我们</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="gradient-bg text-white py-24 text-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-10"></div>
+    <div class="relative z-10">
+      <h2 class="text-4xl font-bold mb-4">智能定位导航技术的前沿探索</h2>
+      <p class="text-lg max-w-2xl mx-auto opacity-95">我们致力于将智能算法与室内定位导航技术深度融合，打造下一代智能定位与导航解决方案，为智慧交通、工业自动化和智能机器人、无人机集群提供精准可靠的位置服务。</p>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="max-w-6xl mx-auto px-6 py-20">
+    <h3 class="text-3xl font-semibold text-gradient mb-6">关于我们</h3>
+    <p class="text-lg leading-relaxed text-gray-700">NavAI Lab专注于室内定位导航技术的研究与开发。我们将先进的智能算法（如深度学习、强化学习、图神经网络等）与多种定位技术（WiFi、蓝牙、UWB、视觉SLAM、惯导、激光雷达等）深度融合，致力于解决复杂室内环境下的精准定位和智能导航问题。我们的研究成果广泛应用于智慧交通、智慧城市、工业自动化和机器人导航等领域。</p>
+  </section>
+
+  <!-- Research -->
+  <section id="research" class="bg-gradient-to-r from-slate-50 to-blue-50 py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h3 class="text-3xl font-semibold text-gradient mb-10">研究方向</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white shadow-lg rounded-2xl p-6 card-hover border-l-4 border-primary-500">
+          <h4 class="text-xl font-bold mb-3 text-primary-700">智能定位算法</h4>
+          <p class="text-gray-600">基于深度学习和强化学习的室内定位算法研究，包括多传感器数据融合、位置估计和轨迹预测等核心技术。</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-2xl p-6 card-hover border-l-4 border-accent-500">
+          <h4 class="text-xl font-bold mb-3 text-accent-700">室内导航系统</h4>
+          <p class="text-gray-600">开发智能导航路径规划算法，支持动态障碍物避障、个性化导航推荐和多目标路径优化。</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-2xl p-6 card-hover border-l-4 border-primary-600">
+          <h4 class="text-xl font-bold mb-3 text-primary-700">多模态定位技术</h4>
+          <p class="text-gray-600">结合WiFi、蓝牙、UWB、视觉SLAM等多种定位技术，实现高精度室内定位和环境感知。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="max-w-6xl mx-auto px-6 py-20">
+    <h3 class="text-3xl font-semibold text-gradient mb-10">团队成员</h3>
+    <div class="relative">
+      <!-- 滚动容器 -->
+              <div class="flex overflow-x-auto scrollbar-hide gap-6 pb-4" id="teamScroll">
+          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-primary-500">
+            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-primary-100" src="images/xm.jpg" alt="夏鸣">
+            <h4 class="text-xl font-bold text-primary-700">夏鸣</h4>
+            <p class="text-gray-600">实验室leader</p>
+          </div>
+          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-accent-500">
+            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-accent-100" src="images/wjl.jpg" alt="王家乐">
+            <h4 class="text-xl font-bold text-accent-700">王家乐</h4>
+            <p class="text-gray-600">博士后</p>
+          </div>
+          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-primary-600">
+            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-primary-100" src="images/zzp.jpg" alt="张展蓬">
+            <h4 class="text-xl font-bold text-primary-700">张展蓬</h4>
+            <p class="text-gray-600">硕士研究生</p>
+          </div>
+          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-accent-600">
+            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-accent-100" src="images/yzw.jpg" alt="岳梓为">
+            <h4 class="text-xl font-bold text-accent-700">岳梓为</h4>
+            <p class="text-gray-600">硕士研究生</p>
+          </div>
+        </div>
+      
+      <!-- 滚动指示器 -->
+      <div class="flex justify-center mt-6 space-x-2">
+        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(0)"></button>
+        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(1)"></button>
+        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(2)"></button>
+        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(3)"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section id="publications" class="bg-gradient-to-r from-blue-50 to-slate-50 py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h3 class="text-3xl font-semibold text-gradient mb-10">研究成果</h3>
+      <ul class="space-y-4 text-gray-700">
+        <li><strong>Zhanpeng Zhang </strong>, Jiale Wang, Ming Xia, Chuang Shi, Weisong Wen, Deyou Zhang "Self-Attention-Enhanced PSW-LSTM for 3D Indoor Pedestrian Positioning with Intergrated WiFi, Magnetometer and Barometer Sensors", <em>IEEE Transactions on Instrumentation and Measurement</em>.</li>      </ul>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="max-w-6xl mx-auto px-6 py-20">
+    <h3 class="text-3xl font-semibold text-gradient mb-6">联系我们</h3>
+    <p class="text-gray-700 mb-4">邮箱: <a href="mailto:hahaha@buaa.edu.cn" class="text-primary-600 hover:text-primary-700 transition-colors duration-300">hahaha@buaa.edu.cn</a></p>
+    <p class="text-gray-700">地址: 电子信息工程学院，北京航空航天大学，北京，中国</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="gradient-bg text-white py-6 text-center">
+    <p>&copy; 2025 NavAI Lab. 保留所有权利。</p>
+  </footer>
+
+  <script>
+    // 团队成员滚动功能
+    function scrollToMember(index) {
+      const container = document.getElementById('teamScroll');
+      const memberWidth = 280 + 24; // 卡片宽度 + gap
+      container.scrollTo({
+        left: index * memberWidth,
+        behavior: 'smooth'
+      });
+      
+      // 更新指示器状态
+      updateIndicators(index);
+    }
+    
+    function updateIndicators(activeIndex) {
+      const indicators = document.querySelectorAll('#teamScroll + div button');
+      indicators.forEach((indicator, index) => {
+        if (index === activeIndex) {
+          indicator.classList.remove('bg-gray-300');
+          indicator.classList.add('bg-primary-600');
+        } else {
+          indicator.classList.remove('bg-primary-600');
+          indicator.classList.add('bg-gray-300');
+        }
+      });
+    }
+    
+    // 监听滚动事件，自动更新指示器
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('teamScroll');
+      container.addEventListener('scroll', function() {
+        const scrollLeft = container.scrollLeft;
+        const memberWidth = 280 + 24;
+        const currentIndex = Math.round(scrollLeft / memberWidth);
+        updateIndicators(currentIndex);
+      });
+      
+      // 初始化第一个指示器为激活状态
+      updateIndicators(0);
+    });
+  </script>
+</body>
+</html>
