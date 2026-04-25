@@ -3,222 +3,1322 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NavAI Lab - 智能定位导航实验室</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              200: '#bae6fd',
-              300: '#7dd3fc',
-              400: '#38bdf8',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              800: '#075985',
-              900: '#0c4a6e',
-            },
-            accent: {
-              50: '#fdf4ff',
-              100: '#fae8ff',
-              200: '#f5d0fe',
-              300: '#f0abfc',
-              400: '#e879f9',
-              500: '#d946ef',
-              600: '#c026d3',
-              700: '#a21caf',
-              800: '#86198f',
-              900: '#701a75',
-            }
-          }
-        }
+  <meta name="description" content="NavAI Lab 智能定位导航实验室，聚焦自主高精度定位、多传感器融合、室内外无缝导航与智能感知。">
+  <title>NavAI Lab | 智能定位导航实验室</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #5b6472;
+      --line: #d8dee6;
+      --paper: #ffffff;
+      --soft: #f4f6f8;
+      --navy: #1f3a5f;
+      --teal: #0f766e;
+      --gold: #b45309;
+      --red: #a33d2c;
+      --hero: #10151b;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -3rem;
+      z-index: 1000;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    .container {
+      width: min(100% - 2rem, var(--max));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      display: flex;
+      min-height: 72px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      display: inline-grid;
+      width: 2.3rem;
+      height: 2.3rem;
+      place-items: center;
+      border: 1px solid var(--navy);
+      border-radius: 6px;
+      color: var(--paper);
+      background: var(--navy);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .brand-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .nav-toggle {
+      display: none;
+      min-height: 2.4rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--paper);
+      color: var(--ink);
+      font: inherit;
+      padding: 0.45rem 0.75rem;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.05rem;
+      color: #293241;
+      font-size: 0.94rem;
+      font-weight: 650;
+    }
+
+    .site-nav a {
+      border-bottom: 2px solid transparent;
+      padding-block: 0.35rem;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--teal);
+      border-color: var(--teal);
+      outline: none;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      height: clamp(500px, calc(100svh - 8rem), 680px);
+      align-items: center;
+      overflow: hidden;
+      color: var(--paper);
+      background: var(--hero);
+      isolation: isolate;
+    }
+
+    .hero-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      background: rgba(11, 16, 22, 0.42);
+    }
+
+    .hero-content {
+      max-width: 900px;
+      padding-block: 3rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.85rem;
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .hero .eyebrow {
+      color: #77d6cb;
+    }
+
+    .hero h1 {
+      max-width: 840px;
+      margin: 0;
+      font-size: clamp(2.55rem, 7vw, 5.3rem);
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 740px;
+      margin: 1.35rem 0 0;
+      color: #d9e4ec;
+      font-size: clamp(1rem, 1.6vw, 1.24rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 2.75rem;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      font-weight: 760;
+      padding: 0.72rem 1rem;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .button.primary {
+      background: #f2f6f4;
+      color: var(--ink);
+    }
+
+    .button.primary:hover,
+    .button.primary:focus-visible {
+      background: #ffffff;
+    }
+
+    .button.ghost {
+      border-color: rgba(255, 255, 255, 0.42);
+      color: var(--paper);
+    }
+
+    .button.ghost:hover,
+    .button.ghost:focus-visible {
+      border-color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-proof {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      max-width: 760px;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.26);
+      padding-top: 1.25rem;
+    }
+
+    .hero-proof strong {
+      display: block;
+      font-size: clamp(1.25rem, 2.3vw, 1.85rem);
+      line-height: 1.1;
+    }
+
+    .hero-proof span {
+      display: block;
+      margin-top: 0.28rem;
+      color: #c5d0d8;
+      font-size: 0.9rem;
+    }
+
+    .section {
+      padding-block: clamp(4rem, 7vw, 6.5rem);
+    }
+
+    .band {
+      background: var(--soft);
+      border-block: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(280px, 0.48fr);
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 2.3rem;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 3.5vw, 2.85rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.7fr);
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: start;
+    }
+
+    .lead {
+      margin: 0;
+      color: #2f3a47;
+      font-size: clamp(1.08rem, 1.7vw, 1.24rem);
+      line-height: 1.85;
+    }
+
+    .fact-list {
+      border-top: 2px solid var(--navy);
+    }
+
+    .fact-row {
+      display: grid;
+      grid-template-columns: 7.4rem 1fr;
+      gap: 1rem;
+      border-bottom: 1px solid var(--line);
+      padding: 1rem 0;
+    }
+
+    .fact-row dt {
+      color: var(--muted);
+      font-weight: 780;
+    }
+
+    .fact-row dd {
+      margin: 0;
+      color: #263140;
+    }
+
+    .direction-grid,
+    .platform-grid,
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .direction-card,
+    .platform-item,
+    .member-card,
+    .publication,
+    .news-item,
+    .contact-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+
+    .direction-card {
+      min-height: 260px;
+      padding: 1.25rem;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .direction-card:hover {
+      border-color: rgba(15, 118, 110, 0.45);
+      box-shadow: 0 16px 35px rgba(17, 24, 39, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .card-index {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .direction-card h3,
+    .platform-item h3 {
+      margin: 0.8rem 0 0.5rem;
+      font-size: 1.08rem;
+      line-height: 1.35;
+    }
+
+    .direction-card p,
+    .platform-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      border: 1px solid #c9d2dc;
+      border-radius: 999px;
+      color: #394556;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.18rem 0.52rem;
+    }
+
+    .platform-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .platform-item {
+      padding: 1.25rem;
+    }
+
+    .platform-item h3 {
+      color: var(--navy);
+    }
+
+    .publication-list {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .publication {
+      display: grid;
+      grid-template-columns: 7.4rem minmax(0, 1fr) auto;
+      gap: 1.15rem;
+      align-items: start;
+      padding: 1.15rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .publication:hover {
+      border-color: rgba(31, 58, 95, 0.55);
+      transform: translateX(2px);
+    }
+
+    .pub-year {
+      color: var(--red);
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .pub-type {
+      display: block;
+      margin-top: 0.18rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 740;
+      text-transform: uppercase;
+    }
+
+    .publication h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .authors {
+      margin: 0.35rem 0 0;
+      color: #3b4655;
+      font-size: 0.93rem;
+    }
+
+    .venue {
+      margin: 0.22rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .pub-link {
+      display: inline-flex;
+      min-width: 6.2rem;
+      justify-content: center;
+      border: 1px solid var(--navy);
+      border-radius: 6px;
+      color: var(--navy);
+      font-size: 0.86rem;
+      font-weight: 800;
+      padding: 0.55rem 0.72rem;
+      white-space: nowrap;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .pub-link:hover,
+    .pub-link:focus-visible {
+      background: var(--navy);
+      color: var(--paper);
+      outline: none;
+    }
+
+    .publications-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1.35rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .text-link {
+      color: var(--teal);
+      font-weight: 800;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.22em;
+    }
+
+    .team-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .member-card {
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .member-photo {
+      aspect-ratio: 4 / 3;
+      width: 100%;
+      object-fit: cover;
+      background: #e6eaef;
+    }
+
+    .member-photo.portrait {
+      aspect-ratio: 1 / 1;
+      object-position: center 18%;
+    }
+
+    .member-body {
+      padding: 1rem;
+    }
+
+    .member-body h3 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .member-role {
+      margin: 0.25rem 0 0;
+      color: var(--navy);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .member-focus {
+      margin: 0.6rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .news-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .news-item {
+      padding: 1.1rem;
+    }
+
+    .news-date {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .news-item h3 {
+      margin: 0.45rem 0 0.3rem;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .news-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(320px, 0.55fr);
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    .contact-panel {
+      padding: 1.25rem;
+    }
+
+    .contact-panel h3 {
+      margin: 0 0 0.9rem;
+      color: var(--navy);
+      font-size: 1.1rem;
+    }
+
+    .contact-line {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: 1rem;
+      border-top: 1px solid var(--line);
+      padding: 0.8rem 0;
+    }
+
+    .contact-line:first-of-type {
+      border-top: 0;
+    }
+
+    .contact-line span {
+      color: var(--muted);
+      font-weight: 780;
+    }
+
+    .contact-line p {
+      margin: 0;
+    }
+
+    .join-note {
+      margin: 0;
+      color: #2f3a47;
+      font-size: 1.04rem;
+    }
+
+    .join-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+    }
+
+    .join-actions .button {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .join-actions .button:hover,
+    .join-actions .button:focus-visible {
+      background: var(--navy);
+      color: var(--paper);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      background: #10151b;
+      color: #d9e4ec;
+      padding: 1.8rem 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 980px) {
+      .section-head,
+      .about-grid,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .direction-grid,
+      .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .publication {
+        grid-template-columns: 5.2rem minmax(0, 1fr);
+      }
+
+      .pub-link {
+        grid-column: 2;
+        justify-self: start;
       }
     }
-  </script>
-  <style>
-    .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+
+    @media (max-width: 780px) {
+      .header-inner {
+        min-height: 66px;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .site-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        border-bottom: 1px solid var(--line);
+        background: var(--paper);
+        padding: 0.5rem 1rem 1rem;
+      }
+
+      .site-nav.is-open {
+        display: flex;
+      }
+
+      .site-nav a {
+        border-bottom: 1px solid var(--line);
+        padding: 0.75rem 0;
+      }
+
+      .hero {
+        height: clamp(520px, calc(100svh - 7rem), 660px);
+      }
+
+      .hero-proof {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+      }
+
+      .platform-grid,
+      .news-list {
+        grid-template-columns: 1fr;
+      }
     }
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 1.25rem, var(--max));
+      }
+
+      .hero h1 {
+        font-size: clamp(2.35rem, 13vw, 3.55rem);
+      }
+
+      .hero-actions,
+      .join-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .direction-grid,
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fact-row,
+      .contact-line {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .publication {
+        grid-template-columns: 1fr;
+      }
+
+      .pub-link {
+        grid-column: auto;
+      }
     }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .card-hover {
-      transition: all 0.3s ease;
-    }
-    
-    .card-hover:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    
-    .text-gradient {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-800">
-  <!-- Header -->
-  <header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-gradient">NavAI Lab</h1>
-      <nav class="space-x-6 text-gray-600 font-medium">
-        <a href="#about" class="hover:text-primary-600 transition-colors duration-300">关于我们</a>
-        <a href="#research" class="hover:text-primary-600 transition-colors duration-300">研究方向</a>
-        <a href="#team" class="hover:text-primary-600 transition-colors duration-300">团队成员</a>
-        <a href="#publications" class="hover:text-primary-600 transition-colors duration-300">研究成果</a>
-        <a href="#contact" class="hover:text-primary-600 transition-colors duration-300">联系我们</a>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="NavAI Lab 首页">
+        <span class="brand-mark">N</span>
+        <span>
+          <span class="brand-title">NavAI Lab</span>
+          <span class="brand-subtitle">智能定位导航实验室</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="siteNav">菜单</button>
+      <nav class="site-nav" id="siteNav" aria-label="主导航">
+        <a href="#about">简介</a>
+        <a href="#research">方向</a>
+        <a href="#publications">论文</a>
+        <a href="#team">团队</a>
+        <a href="#news">动态</a>
+        <a href="#contact">联系</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="gradient-bg text-white py-24 text-center relative overflow-hidden">
-    <div class="absolute inset-0 bg-black opacity-10"></div>
-    <div class="relative z-10">
-      <h2 class="text-4xl font-bold mb-4">智能定位导航技术的前沿探索</h2>
-      <p class="text-lg max-w-2xl mx-auto opacity-95">我们致力于将智能算法与室内定位导航技术深度融合，打造下一代智能定位与导航解决方案，为智慧交通、工业自动化和智能机器人、无人机集群提供精准可靠的位置服务。</p>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="max-w-6xl mx-auto px-6 py-20">
-    <h3 class="text-3xl font-semibold text-gradient mb-6">关于我们</h3>
-    <p class="text-lg leading-relaxed text-gray-700">NavAI Lab专注于室内定位导航技术的研究与开发。我们将先进的智能算法（如深度学习、强化学习、图神经网络等）与多种定位技术（WiFi、蓝牙、UWB、视觉SLAM、惯导、激光雷达等）深度融合，致力于解决复杂室内环境下的精准定位和智能导航问题。我们的研究成果广泛应用于智慧交通、智慧城市、工业自动化和机器人导航等领域。</p>
-  </section>
-
-  <!-- Research -->
-  <section id="research" class="bg-gradient-to-r from-slate-50 to-blue-50 py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <h3 class="text-3xl font-semibold text-gradient mb-10">研究方向</h3>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white shadow-lg rounded-2xl p-6 card-hover border-l-4 border-primary-500">
-          <h4 class="text-xl font-bold mb-3 text-primary-700">智能定位算法</h4>
-          <p class="text-gray-600">基于深度学习和强化学习的室内定位算法研究，包括多传感器数据融合、位置估计和轨迹预测等核心技术。</p>
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="heroTitle">
+      <canvas class="hero-canvas" id="fieldCanvas" aria-hidden="true"></canvas>
+      <div class="container hero-content">
+        <p class="eyebrow">Autonomous Positioning · Navigation AI · Sensor Fusion</p>
+        <h1 id="heroTitle">面向复杂空间的智能定位与无缝导航</h1>
+        <p>NavAI Lab 聚焦 GNSS 受限环境下的自主高精度定位、多源传感融合、室内外连续导航和人机智能感知，服务智慧城市、应急救援、工业巡检与低空智能系统。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#publications">查看代表论文</a>
+          <a class="button ghost" href="#contact">合作与招生</a>
         </div>
-        <div class="bg-white shadow-lg rounded-2xl p-6 card-hover border-l-4 border-accent-500">
-          <h4 class="text-xl font-bold mb-3 text-accent-700">室内导航系统</h4>
-          <p class="text-gray-600">开发智能导航路径规划算法，支持动态障碍物避障、个性化导航推荐和多目标路径优化。</p>
-        </div>
-        <div class="bg-white shadow-lg rounded-2xl p-6 card-hover border-l-4 border-primary-600">
-          <h4 class="text-xl font-bold mb-3 text-primary-700">多模态定位技术</h4>
-          <p class="text-gray-600">结合WiFi、蓝牙、UWB、视觉SLAM等多种定位技术，实现高精度室内定位和环境感知。</p>
+        <div class="hero-proof" aria-label="实验室概览">
+          <div>
+            <strong>40+</strong>
+            <span>学术论文与持续积累</span>
+          </div>
+          <div>
+            <strong>11</strong>
+            <span>授权发明专利</span>
+          </div>
+          <div>
+            <strong>1 m</strong>
+            <span>复杂楼宇垂向定位目标</span>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Team -->
-  <section id="team" class="max-w-6xl mx-auto px-6 py-20">
-    <h3 class="text-3xl font-semibold text-gradient mb-10">团队成员</h3>
-    <div class="relative">
-      <!-- 滚动容器 -->
-              <div class="flex overflow-x-auto scrollbar-hide gap-6 pb-4" id="teamScroll">
-          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-primary-500">
-            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-primary-100" src="images/xm.jpg" alt="夏鸣">
-            <h4 class="text-xl font-bold text-primary-700">夏鸣</h4>
-            <p class="text-gray-600">实验室leader</p>
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">About</p>
+            <h2>从“能定位”走向“可信、连续、智能”的空间感知系统</h2>
           </div>
-          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-accent-500">
-            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-accent-100" src="images/wjl.jpg" alt="王家乐">
-            <h4 class="text-xl font-bold text-accent-700">王家乐</h4>
-            <p class="text-gray-600">博士后</p>
+          <p>实验室围绕复杂场景定位导航需求，探索无需密集基础设施、能够跨室内外和多楼层运行的自主定位理论、算法与设备。</p>
+        </div>
+        <div class="about-grid">
+          <p class="lead">我们将惯性导航、GNSS/PPP、Wi-Fi/磁场/气压指纹、视觉与三维地图、UWB 及可穿戴传感器纳入统一的智能融合框架，重点研究传感器异构、动态环境、初始位置未知、误差长期累积等关键问题。团队关注算法可部署性，也重视实际系统：从足部/头戴/腕戴设备，到智能手机端采集平台，再到云端轨迹可视化和行业现场验证。</p>
+          <dl class="fact-list">
+            <div class="fact-row">
+              <dt>依托单位</dt>
+              <dd>北京航空航天大学，导航科学与技术、电子信息、空间与地球科学交叉方向</dd>
+            </div>
+            <div class="fact-row">
+              <dt>研究关键词</dt>
+              <dd>自主高精度定位、三维重建、多传感器融合、PDR、GNSS/INS、智能感知</dd>
+            </div>
+            <div class="fact-row">
+              <dt>应用场景</dt>
+              <dd>大型地下空间、能源与交通基础设施、应急救援、智慧城市、可穿戴健康与位置服务</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="research">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Research</p>
+            <h2>研究方向</h2>
           </div>
-          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-primary-600">
-            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-primary-100" src="images/zzp.jpg" alt="张展蓬">
-            <h4 class="text-xl font-bold text-primary-700">张展蓬</h4>
-            <p class="text-gray-600">硕士研究生</p>
+          <p>围绕“复杂空间中的人、设备与环境”建立可解释、可验证、可部署的定位导航能力。</p>
+        </div>
+        <div class="direction-grid">
+          <article class="direction-card">
+            <span class="card-index">01</span>
+            <h3>室内外无缝定位</h3>
+            <p>面向 GNSS 遮挡、信号衰减和多路径场景，融合 PDR、气压计、三维地图和手机 PPP，实现跨楼层连续轨迹估计。</p>
+            <div class="tag-row">
+              <span class="tag">PDR</span>
+              <span class="tag">3D Map</span>
+              <span class="tag">PPP</span>
+            </div>
+          </article>
+          <article class="direction-card">
+            <span class="card-index">02</span>
+            <h3>多模态指纹与深度学习</h3>
+            <p>利用 Wi-Fi、磁场、气压与惯性序列构建三维指纹定位模型，提升稀疏采集下的匹配精度和轨迹连续性。</p>
+            <div class="tag-row">
+              <span class="tag">Wi-Fi</span>
+              <span class="tag">LSTM</span>
+              <span class="tag">Attention</span>
+            </div>
+          </article>
+          <article class="direction-card">
+            <span class="card-index">03</span>
+            <h3>城市 GNSS 与智能终端</h3>
+            <p>研究三维建筑辅助 NLOS 识别、观测噪声建模和低成本终端高精度定位，让消费级设备获得更可靠的位置服务。</p>
+            <div class="tag-row">
+              <span class="tag">GNSS</span>
+              <span class="tag">NLOS</span>
+              <span class="tag">Smartphone</span>
+            </div>
+          </article>
+          <article class="direction-card">
+            <span class="card-index">04</span>
+            <h3>运动感知与可穿戴系统</h3>
+            <p>面向人员安全、健康监测与人机交互，结合 IMU、PPG、ECG、CSI 等多源数据进行动作识别、场景识别和风险感知。</p>
+            <div class="tag-row">
+              <span class="tag">Wearable</span>
+              <span class="tag">HAR</span>
+              <span class="tag">IoT</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Platform</p>
+            <h2>实验平台与系统能力</h2>
           </div>
-          <div class="bg-white shadow-lg rounded-2xl p-6 text-center min-w-[280px] flex-shrink-0 card-hover border-t-4 border-accent-600">
-            <img class="w-24 h-24 mx-auto rounded-full mb-4 object-cover ring-4 ring-accent-100" src="images/yzw.jpg" alt="岳梓为">
-            <h4 class="text-xl font-bold text-accent-700">岳梓为</h4>
-            <p class="text-gray-600">硕士研究生</p>
+          <p>从数据采集、算法建模到现场验证，形成面向真实复杂环境的闭环研究链条。</p>
+        </div>
+        <div class="platform-grid">
+          <article class="platform-item">
+            <h3>可穿戴惯性定位设备</h3>
+            <p>足部、肩部、头戴等多形态 IMU 系统，支持步态检测、零速更新、楼层约束和三维轨迹恢复。</p>
+          </article>
+          <article class="platform-item">
+            <h3>智能手机多源采集</h3>
+            <p>同步采集 GNSS、Wi-Fi、磁场、气压、光照和惯性数据，支撑跨终端、跨场景的定位与识别实验。</p>
+          </article>
+          <article class="platform-item">
+            <h3>三维地图与视觉辅助</h3>
+            <p>结合建筑模型、鱼眼相机与 RTK/PDR 信息，通过因子图优化提升遮挡环境中的绝对定位能力。</p>
+          </article>
+          <article class="platform-item">
+            <h3>云端轨迹与行业验证</h3>
+            <p>面向能源、交通和应急场景进行在线轨迹展示、状态监测与任务级评估，推动算法从论文走向现场。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="publications">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Publications</p>
+            <h2>代表论文</h2>
+          </div>
+          <p>精选与实验室方向高度相关的近年成果，链接指向 DOI 或权威论文条目。</p>
+        </div>
+        <div class="publication-list">
+          <article class="publication">
+            <div>
+              <span class="pub-year">2026</span>
+              <span class="pub-type">Journal</span>
+            </div>
+            <div>
+              <h3>Fine-Grained Indoor-Outdoor Scene Recognition: Leveraging Spatio-Temporal Characteristics from Multimodal Sensors via CNN-ViT-TabTransformer Fusion</h3>
+              <p class="authors">Jiale Wang, Mingwei Luo, Ziwei Yue, Ming Xia*, Chuang Shi, Fangjiong Chen</p>
+              <p class="venue">IEEE Sensors Journal</p>
+            </div>
+            <a class="pub-link" href="https://doi.org/10.1109/JSEN.2026.3655120" target="_blank" rel="noopener">DOI</a>
+          </article>
+          <article class="publication">
+            <div>
+              <span class="pub-year">2025</span>
+              <span class="pub-type">Journal</span>
+            </div>
+            <div>
+              <h3>HPPS: A Head-Mounted Pedestrian Positioning System Integrating Fisheye-Camera/RTK/PDR with Factor Graph Optimization</h3>
+              <p class="authors">Ming Xia, Jiale Wang, Yunfeng Shan, Deyou Zhang, Qianhua Yang, Chuang Shi</p>
+              <p class="venue">IEEE Internet of Things Journal</p>
+            </div>
+            <a class="pub-link" href="https://doi.org/10.1109/JIOT.2025.3610186" target="_blank" rel="noopener">DOI</a>
+          </article>
+          <article class="publication">
+            <div>
+              <span class="pub-year">2025</span>
+              <span class="pub-type">Journal</span>
+            </div>
+            <div>
+              <h3>Self-Attention-Enhanced PSW-LSTM for 3-D Indoor Pedestrian Positioning With Integrated Wi-Fi, Magnetometer, and Barometer Sensors</h3>
+              <p class="authors">Zhanpeng Zhang, Jiale Wang, Ming Xia*, Chuang Shi, Weisong Wen, Deyou Zhang</p>
+              <p class="venue">IEEE Transactions on Instrumentation and Measurement, 74: 2528915</p>
+            </div>
+            <a class="pub-link" href="https://doi.org/10.1109/TIM.2025.3568977" target="_blank" rel="noopener">DOI</a>
+          </article>
+          <article class="publication">
+            <div>
+              <span class="pub-year">2025</span>
+              <span class="pub-type">Journal</span>
+            </div>
+            <div>
+              <h3>Urban GNSS Positioning for Consumer Electronics: 3D Mapping and Advanced Signal Processing</h3>
+              <p class="authors">Jiale Wang, Ming Xia*, Deyou Zhang, Weisong Wen, Wu Chen, Chuang Shi</p>
+              <p class="venue">IEEE Transactions on Consumer Electronics, 71(2): 7059-7072</p>
+            </div>
+            <a class="pub-link" href="https://doi.org/10.1109/TCE.2025.3552892" target="_blank" rel="noopener">DOI</a>
+          </article>
+          <article class="publication">
+            <div>
+              <span class="pub-year">2024</span>
+              <span class="pub-type">Journal</span>
+            </div>
+            <div>
+              <h3>Indoor Altitude Estimation Assisted by Inertial Compensation and Online Floor Modeling</h3>
+              <p class="authors">Ming Xia, Jiale Wang, Chuang Shi, Weisong Wen</p>
+              <p class="venue">Measurement Science and Technology, 35(12): 126302</p>
+            </div>
+            <a class="pub-link" href="https://doi.org/10.1088/1361-6501/ad7487" target="_blank" rel="noopener">DOI</a>
+          </article>
+          <article class="publication">
+            <div>
+              <span class="pub-year">2024</span>
+              <span class="pub-type">Journal</span>
+            </div>
+            <div>
+              <h3>Seamless Indoor-Outdoor Foot-Mounted Inertial Pedestrian Positioning System Enhanced by Smartphone PPP/3-D Map/Barometer</h3>
+              <p class="authors">Jiale Wang, Chuang Shi, Ming Xia, Fu Zheng, Tuan Li, Yunfeng Shan, Guifei Jing, Wu Chen, T. C. Hsia</p>
+              <p class="venue">IEEE Internet of Things Journal, 11(7): 13051-13069</p>
+            </div>
+            <a class="pub-link" href="https://doi.org/10.1109/JIOT.2023.3337393" target="_blank" rel="noopener">DOI</a>
+          </article>
+          <article class="publication">
+            <div>
+              <span class="pub-year">2024</span>
+              <span class="pub-type">Conference</span>
+            </div>
+            <div>
+              <h3>3D Indoor Localization via Universal Signal Fingerprinting Powered by LSTM</h3>
+              <p class="authors">Zhanpeng Zhang, Ming Xia, Jiale Wang, Weisong Wen, Chuang Shi, Yunfeng Shan, Xinqi Tian</p>
+              <p class="venue">IPIN 2024</p>
+            </div>
+            <a class="pub-link" href="https://doi.org/10.1109/IPIN62893.2024.10786173" target="_blank" rel="noopener">DOI</a>
+          </article>
+        </div>
+        <div class="publications-footer">
+          <span>更多成果可从教师主页、ORCID、IEEE Xplore 和 Google Scholar 持续补充。</span>
+          <a class="text-link" href="https://sse.buaa.edu.cn/info/1193/7240.htm" target="_blank" rel="noopener">夏鸣教师主页</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="team">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">People</p>
+            <h2>团队成员</h2>
+          </div>
+          <p>团队以定位导航、智能感知和多源融合为共同语言，连接算法研究、设备实现和工程验证。</p>
+        </div>
+        <div class="team-grid">
+          <article class="member-card">
+            <img class="member-photo" src="images/xm.jpg" alt="夏鸣照片">
+            <div class="member-body">
+              <h3>夏鸣</h3>
+              <p class="member-role">副研究员 / PI</p>
+              <p class="member-focus">自主高精度定位、三维重建、行人惯性定位、可穿戴传感。</p>
+              <div class="tag-row">
+                <a class="tag" href="https://sse.buaa.edu.cn/info/1193/7240.htm" target="_blank" rel="noopener">Profile</a>
+              </div>
+            </div>
+          </article>
+          <article class="member-card">
+            <img class="member-photo portrait" src="images/wjl.jpg" alt="王家乐照片">
+            <div class="member-body">
+              <h3>王家乐</h3>
+              <p class="member-role">助理研究员</p>
+              <p class="member-focus">高精度 GNSS、辅助 GNSS、多传感器融合、室内外无缝定位。</p>
+              <div class="tag-row">
+                <a class="tag" href="https://orcid.org/0000-0001-6530-7060" target="_blank" rel="noopener">ORCID</a>
+              </div>
+            </div>
+          </article>
+          <article class="member-card">
+            <img class="member-photo portrait" src="images/zzp.jpg" alt="张展蓬照片">
+            <div class="member-body">
+              <h3>张展蓬</h3>
+              <p class="member-role">硕士研究生</p>
+              <p class="member-focus">多源融合导航、三维室内定位、指纹定位与深度序列建模。</p>
+            </div>
+          </article>
+          <article class="member-card">
+            <img class="member-photo portrait" src="images/yzw.jpg" alt="岳梓为照片">
+            <div class="member-body">
+              <h3>岳梓为</h3>
+              <p class="member-role">硕士研究生</p>
+              <p class="member-focus">PDR、步长估计、智能场景识别、可穿戴位置感知。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="news">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">News</p>
+            <h2>近期动态</h2>
+          </div>
+          <p>围绕定位导航、智能感知与可穿戴系统，团队成果持续发表于 IEEE IoT Journal、IEEE Sensors Journal、TIM 等期刊会议。</p>
+        </div>
+        <div class="news-list">
+          <article class="news-item">
+            <span class="news-date">2026</span>
+            <h3>细粒度室内外场景识别成果发表于 IEEE Sensors Journal</h3>
+            <p>利用 CNN-ViT-TabTransformer 融合多模态时空特征，面向复杂空间中的智能场景理解。</p>
+          </article>
+          <article class="news-item">
+            <span class="news-date">2025</span>
+            <h3>头戴式行人定位系统 HPPS 发表于 IEEE Internet of Things Journal</h3>
+            <p>将鱼眼相机、RTK 与 PDR 引入因子图优化框架，提升遮挡环境中的连续定位性能。</p>
+          </article>
+          <article class="news-item">
+            <span class="news-date">2025</span>
+            <h3>WavI2I 获 INDIN 2025 Best Paper Award</h3>
+            <p>面向工业场景中的人体活动识别，探索小波驱动惯性成像与鲁棒感知方法。</p>
+          </article>
+          <article class="news-item">
+            <span class="news-date">2025</span>
+            <h3>团队成果获卫星导航定位科技进步奖一等奖</h3>
+            <p>围绕国家重点行业在复杂环境中的高精度定位需求，推进理论、设备与应用落地。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2>合作与招生</h2>
+          </div>
+          <p>欢迎对定位导航、智能感知、可穿戴系统、低空与机器人导航感兴趣的同学和合作伙伴联系。</p>
+        </div>
+        <div class="contact-layout">
+          <div class="contact-panel">
+            <h3>实验室联系</h3>
+            <div class="contact-line">
+              <span>邮箱</span>
+              <p><a class="text-link" href="mailto:xiaming@buaa.edu.cn">xiaming@buaa.edu.cn</a> / <a class="text-link" href="mailto:wang_jiale@buaa.edu.cn">wang_jiale@buaa.edu.cn</a></p>
+            </div>
+            <div class="contact-line">
+              <span>地址</span>
+              <p>北京市海淀区学院路 37 号，北京航空航天大学，柏彦大厦 407A</p>
+            </div>
+            <div class="contact-line">
+              <span>方向</span>
+              <p>自主定位、PNT、GNSS/INS、多模态感知、深度学习、智能终端与可穿戴系统。</p>
+            </div>
+          </div>
+          <div class="contact-panel">
+            <h3>加入我们</h3>
+            <p class="join-note">团队长期欢迎本科生科研训练、硕士/博士研究生、博士后与工程合作。来信可附研究兴趣、简历、项目经历或代表性代码/论文。</p>
+            <div class="join-actions">
+              <a class="button" href="mailto:xiaming@buaa.edu.cn?subject=NavAI%20Lab%20合作/招生咨询">联系 PI</a>
+              <a class="button" href="#publications">阅读论文</a>
+            </div>
           </div>
         </div>
-      
-      <!-- 滚动指示器 -->
-      <div class="flex justify-center mt-6 space-x-2">
-        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(0)"></button>
-        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(1)"></button>
-        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(2)"></button>
-        <button class="w-3 h-3 rounded-full bg-gray-300 transition-colors duration-300" onclick="scrollToMember(3)"></button>
       </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© 2026 NavAI Lab, Beihang University.</span>
+      <span>Intelligent Positioning · Navigation · Sensing</span>
     </div>
-  </section>
-
-  <!-- Publications -->
-  <section id="publications" class="bg-gradient-to-r from-blue-50 to-slate-50 py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <h3 class="text-3xl font-semibold text-gradient mb-10">研究成果</h3>
-      <ul class="space-y-4 text-gray-700">
-        <li><strong>Zhanpeng Zhang </strong>, Jiale Wang, Ming Xia, Chuang Shi, Weisong Wen, Deyou Zhang "Self-Attention-Enhanced PSW-LSTM for 3D Indoor Pedestrian Positioning with Intergrated WiFi, Magnetometer and Barometer Sensors", <em>IEEE Transactions on Instrumentation and Measurement</em>.</li>      </ul>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="max-w-6xl mx-auto px-6 py-20">
-    <h3 class="text-3xl font-semibold text-gradient mb-6">联系我们</h3>
-    <p class="text-gray-700 mb-4">邮箱: <a href="mailto:hahaha@buaa.edu.cn" class="text-primary-600 hover:text-primary-700 transition-colors duration-300">hahaha@buaa.edu.cn</a></p>
-    <p class="text-gray-700">地址: 电子信息工程学院，北京航空航天大学，北京，中国</p>
-  </section>
-
-  <!-- Footer -->
-  <footer class="gradient-bg text-white py-6 text-center">
-    <p>&copy; 2025 NavAI Lab. 保留所有权利。</p>
   </footer>
 
   <script>
-    // 团队成员滚动功能
-    function scrollToMember(index) {
-      const container = document.getElementById('teamScroll');
-      const memberWidth = 280 + 24; // 卡片宽度 + gap
-      container.scrollTo({
-        left: index * memberWidth,
-        behavior: 'smooth'
-      });
-      
-      // 更新指示器状态
-      updateIndicators(index);
-    }
-    
-    function updateIndicators(activeIndex) {
-      const indicators = document.querySelectorAll('#teamScroll + div button');
-      indicators.forEach((indicator, index) => {
-        if (index === activeIndex) {
-          indicator.classList.remove('bg-gray-300');
-          indicator.classList.add('bg-primary-600');
-        } else {
-          indicator.classList.remove('bg-primary-600');
-          indicator.classList.add('bg-gray-300');
-        }
-      });
-    }
-    
-    // 监听滚动事件，自动更新指示器
-    document.addEventListener('DOMContentLoaded', function() {
-      const container = document.getElementById('teamScroll');
-      container.addEventListener('scroll', function() {
-        const scrollLeft = container.scrollLeft;
-        const memberWidth = 280 + 24;
-        const currentIndex = Math.round(scrollLeft / memberWidth);
-        updateIndicators(currentIndex);
-      });
-      
-      // 初始化第一个指示器为激活状态
-      updateIndicators(0);
+    const navToggle = document.querySelector('.nav-toggle');
+    const siteNav = document.querySelector('#siteNav');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = siteNav.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
     });
+
+    siteNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        siteNav.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    (() => {
+      const canvas = document.getElementById('fieldCanvas');
+      const ctx = canvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const anchors = [
+        { x: 0.15, y: 0.24, c: '#77d6cb' },
+        { x: 0.74, y: 0.2, c: '#f1bd61' },
+        { x: 0.88, y: 0.68, c: '#e98676' },
+        { x: 0.33, y: 0.76, c: '#b6c8da' },
+        { x: 0.58, y: 0.48, c: '#77d6cb' }
+      ];
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = Math.floor(rect.width * dpr);
+        canvas.height = Math.floor(rect.height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function line(x1, y1, x2, y2, color, alpha, width) {
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function draw(t = 0) {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        const time = t * 0.001;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#10151b';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.save();
+        ctx.translate(w * 0.52, h * 0.54);
+        ctx.rotate(-0.18);
+        ctx.translate(-w * 0.52, -h * 0.54);
+
+        for (let x = -w; x < w * 1.7; x += 48) {
+          line(x, 0, x + w * 0.22, h, '#8aa1b5', 0.12, 1);
+        }
+        for (let y = -h * 0.2; y < h * 1.2; y += 48) {
+          line(0, y, w, y + h * 0.08, '#8aa1b5', 0.1, 1);
+        }
+
+        ctx.strokeStyle = 'rgba(217, 228, 236, 0.34)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(w * 0.1, h * 0.18, w * 0.36, h * 0.42);
+        ctx.strokeRect(w * 0.52, h * 0.27, w * 0.31, h * 0.5);
+        line(w * 0.46, h * 0.39, w * 0.52, h * 0.39, '#d9e4ec', 0.32, 2);
+        line(w * 0.63, h * 0.27, w * 0.63, h * 0.77, '#d9e4ec', 0.24, 2);
+        line(w * 0.1, h * 0.42, w * 0.46, h * 0.42, '#d9e4ec', 0.24, 2);
+        line(w * 0.24, h * 0.18, w * 0.24, h * 0.6, '#d9e4ec', 0.22, 2);
+
+        const path = anchors.map((a) => ({
+          x: a.x * w + Math.cos(time * 0.55 + a.x * 5) * 8,
+          y: a.y * h + Math.sin(time * 0.6 + a.y * 5) * 8,
+          c: a.c
+        }));
+
+        for (let i = 0; i < path.length; i += 1) {
+          const a = path[i];
+          const b = path[(i + 1) % path.length];
+          line(a.x, a.y, b.x, b.y, '#77d6cb', 0.18, 1.5);
+        }
+
+        path.forEach((point, index) => {
+          const pulse = 1 + Math.sin(time * 2.1 + index) * 0.16;
+          ctx.save();
+          ctx.fillStyle = point.c;
+          ctx.globalAlpha = 0.92;
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 5.5 * pulse, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 0.18;
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 30 * pulse, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        const walkerX = w * (0.23 + (Math.sin(time * 0.42) + 1) * 0.24);
+        const walkerY = h * (0.48 + Math.cos(time * 0.58) * 0.12);
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 8]);
+        ctx.beginPath();
+        ctx.moveTo(w * 0.16, h * 0.52);
+        ctx.bezierCurveTo(w * 0.36, h * 0.32, w * 0.5, h * 0.72, walkerX, walkerY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(walkerX, walkerY, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.restore();
+
+        if (!reduceMotion) {
+          requestAnimationFrame(draw);
+        }
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      requestAnimationFrame(draw);
+    })();
   </script>
 </body>
 </html>
