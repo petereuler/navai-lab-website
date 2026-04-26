@@ -36,6 +36,12 @@
       line-height: 1.6;
     }
 
+    h1,
+    h2 {
+      font-family: Georgia, "Times New Roman", "Noto Serif CJK SC", "Songti SC", SimSun, serif;
+      font-weight: 720;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -363,7 +369,7 @@
     }
 
     .direction-card {
-      min-height: 260px;
+      min-height: 230px;
       padding: 1.25rem;
       transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -423,76 +429,97 @@
       color: var(--navy);
     }
 
-    .publication-list {
+    .publication-grid {
       display: grid;
-      gap: 0.9rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
     }
 
     .publication {
-      display: grid;
-      grid-template-columns: 7.4rem minmax(0, 1fr) auto;
-      gap: 1.15rem;
-      align-items: start;
-      padding: 1.15rem;
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .publication:hover {
       border-color: rgba(31, 58, 95, 0.55);
-      transform: translateX(2px);
+      box-shadow: 0 18px 40px rgba(17, 24, 39, 0.08);
+      transform: translateY(-3px);
     }
 
-    .pub-year {
+    .pub-figure {
+      display: block;
+      aspect-ratio: 16 / 10;
+      border-bottom: 1px solid var(--line);
+      background: #e9eef2;
+      overflow: hidden;
+    }
+
+    .pub-figure svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .pub-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .pub-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.55rem;
       color: var(--red);
-      font-size: 1.05rem;
-      font-weight: 900;
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
 
     .pub-type {
-      display: block;
-      margin-top: 0.18rem;
       color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 740;
-      text-transform: uppercase;
+      font-weight: 760;
     }
 
     .publication h3 {
       margin: 0;
       font-size: 1rem;
-      line-height: 1.45;
+      line-height: 1.42;
     }
 
     .authors {
-      margin: 0.35rem 0 0;
+      margin: 0.45rem 0 0;
       color: #3b4655;
-      font-size: 0.93rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .venue {
-      margin: 0.22rem 0 0;
+      margin: 0.35rem 0 0;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .pub-link {
       display: inline-flex;
-      min-width: 6.2rem;
-      justify-content: center;
-      border: 1px solid var(--navy);
-      border-radius: 6px;
+      width: fit-content;
+      margin-top: auto;
+      border-bottom: 1px solid currentColor;
       color: var(--navy);
       font-size: 0.86rem;
-      font-weight: 800;
-      padding: 0.55rem 0.72rem;
-      white-space: nowrap;
-      transition: background 0.2s ease, color 0.2s ease;
+      font-weight: 850;
+      padding-top: 0.8rem;
     }
 
     .pub-link:hover,
     .pub-link:focus-visible {
-      background: var(--navy);
-      color: var(--paper);
+      color: var(--teal);
       outline: none;
     }
 
@@ -672,17 +699,9 @@
       }
 
       .direction-grid,
-      .team-grid {
+      .team-grid,
+      .publication-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .publication {
-        grid-template-columns: 5.2rem minmax(0, 1fr);
-      }
-
-      .pub-link {
-        grid-column: 2;
-        justify-self: start;
       }
     }
 
@@ -758,7 +777,8 @@
       }
 
       .direction-grid,
-      .team-grid {
+      .team-grid,
+      .publication-grid {
         grid-template-columns: 1fr;
       }
 
@@ -768,13 +788,6 @@
         gap: 0.25rem;
       }
 
-      .publication {
-        grid-template-columns: 1fr;
-      }
-
-      .pub-link {
-        grid-column: auto;
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -817,8 +830,8 @@
       <canvas class="hero-canvas" id="fieldCanvas" aria-hidden="true"></canvas>
       <div class="container hero-content">
         <p class="eyebrow">Autonomous Positioning · Navigation AI · Sensor Fusion</p>
-        <h1 id="heroTitle">面向复杂空间的智能定位与无缝导航</h1>
-        <p>NavAI Lab 聚焦 GNSS 受限环境下的自主高精度定位、多源传感融合、室内外连续导航和人机智能感知，服务智慧城市、应急救援、工业巡检与低空智能系统。</p>
+        <h1 id="heroTitle">复杂环境中的可信定位与智能导航</h1>
+        <p>NavAI Lab 研究 GNSS 受限场景下的定位理论、传感融合与可部署系统，面向室内外连续导航、低成本终端和可穿戴智能感知。</p>
         <div class="hero-actions">
           <a class="button primary" href="#publications">查看代表论文</a>
           <a class="button ghost" href="#contact">合作与招生</a>
@@ -826,7 +839,7 @@
         <div class="hero-proof" aria-label="实验室概览">
           <div>
             <strong>40+</strong>
-            <span>学术论文与持续积累</span>
+            <span>论文与系统成果</span>
           </div>
           <div>
             <strong>11</strong>
@@ -834,7 +847,7 @@
           </div>
           <div>
             <strong>1 m</strong>
-            <span>复杂楼宇垂向定位目标</span>
+            <span>楼宇垂向定位目标</span>
           </div>
         </div>
       </div>
@@ -845,12 +858,12 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">About</p>
-            <h2>从“能定位”走向“可信、连续、智能”的空间感知系统</h2>
+            <h2>围绕受限环境定位的基础问题与系统验证</h2>
           </div>
-          <p>实验室围绕复杂场景定位导航需求，探索无需密集基础设施、能够跨室内外和多楼层运行的自主定位理论、算法与设备。</p>
+          <p>实验室关注定位误差机理、异构传感器约束建模，以及跨设备、跨场景的长期稳定性。</p>
         </div>
         <div class="about-grid">
-          <p class="lead">我们将惯性导航、GNSS/PPP、Wi-Fi/磁场/气压指纹、视觉与三维地图、UWB 及可穿戴传感器纳入统一的智能融合框架，重点研究传感器异构、动态环境、初始位置未知、误差长期累积等关键问题。团队关注算法可部署性，也重视实际系统：从足部/头戴/腕戴设备，到智能手机端采集平台，再到云端轨迹可视化和行业现场验证。</p>
+          <p class="lead">我们将惯性导航、GNSS/PPP、Wi-Fi/磁场/气压指纹、视觉与三维地图、UWB 及可穿戴传感纳入统一融合框架，研究在遮挡、多路径、动态人群和初始位置未知条件下的鲁棒定位方法。</p>
           <dl class="fact-list">
             <div class="fact-row">
               <dt>依托单位</dt>
@@ -876,13 +889,13 @@
             <p class="eyebrow">Research</p>
             <h2>研究方向</h2>
           </div>
-          <p>围绕“复杂空间中的人、设备与环境”建立可解释、可验证、可部署的定位导航能力。</p>
+          <p>以定位可信度、场景泛化和端侧可部署性为核心评价标准。</p>
         </div>
         <div class="direction-grid">
           <article class="direction-card">
             <span class="card-index">01</span>
             <h3>室内外无缝定位</h3>
-            <p>面向 GNSS 遮挡、信号衰减和多路径场景，融合 PDR、气压计、三维地图和手机 PPP，实现跨楼层连续轨迹估计。</p>
+            <p>融合 PDR、气压计、三维地图和手机 PPP，估计跨楼层连续轨迹。</p>
             <div class="tag-row">
               <span class="tag">PDR</span>
               <span class="tag">3D Map</span>
@@ -892,7 +905,7 @@
           <article class="direction-card">
             <span class="card-index">02</span>
             <h3>多模态指纹与深度学习</h3>
-            <p>利用 Wi-Fi、磁场、气压与惯性序列构建三维指纹定位模型，提升稀疏采集下的匹配精度和轨迹连续性。</p>
+            <p>利用 Wi-Fi、磁场、气压与惯性序列构建三维指纹定位模型。</p>
             <div class="tag-row">
               <span class="tag">Wi-Fi</span>
               <span class="tag">LSTM</span>
@@ -902,7 +915,7 @@
           <article class="direction-card">
             <span class="card-index">03</span>
             <h3>城市 GNSS 与智能终端</h3>
-            <p>研究三维建筑辅助 NLOS 识别、观测噪声建模和低成本终端高精度定位，让消费级设备获得更可靠的位置服务。</p>
+            <p>研究三维建筑辅助 NLOS 识别、观测噪声建模和低成本高精度定位。</p>
             <div class="tag-row">
               <span class="tag">GNSS</span>
               <span class="tag">NLOS</span>
@@ -912,7 +925,7 @@
           <article class="direction-card">
             <span class="card-index">04</span>
             <h3>运动感知与可穿戴系统</h3>
-            <p>面向人员安全、健康监测与人机交互，结合 IMU、PPG、ECG、CSI 等多源数据进行动作识别、场景识别和风险感知。</p>
+            <p>结合 IMU、PPG、ECG、CSI 等多源数据进行动作与场景识别。</p>
             <div class="tag-row">
               <span class="tag">Wearable</span>
               <span class="tag">HAR</span>
@@ -930,24 +943,24 @@
             <p class="eyebrow">Platform</p>
             <h2>实验平台与系统能力</h2>
           </div>
-          <p>从数据采集、算法建模到现场验证，形成面向真实复杂环境的闭环研究链条。</p>
+          <p>从数据采集、算法建模到现场验证，形成可复现实验链条。</p>
         </div>
         <div class="platform-grid">
           <article class="platform-item">
             <h3>可穿戴惯性定位设备</h3>
-            <p>足部、肩部、头戴等多形态 IMU 系统，支持步态检测、零速更新、楼层约束和三维轨迹恢复。</p>
+            <p>足部、肩部、头戴等多形态 IMU 系统，支持步态检测、零速更新和三维轨迹恢复。</p>
           </article>
           <article class="platform-item">
             <h3>智能手机多源采集</h3>
-            <p>同步采集 GNSS、Wi-Fi、磁场、气压、光照和惯性数据，支撑跨终端、跨场景的定位与识别实验。</p>
+            <p>同步采集 GNSS、Wi-Fi、磁场、气压、光照和惯性数据。</p>
           </article>
           <article class="platform-item">
             <h3>三维地图与视觉辅助</h3>
-            <p>结合建筑模型、鱼眼相机与 RTK/PDR 信息，通过因子图优化提升遮挡环境中的绝对定位能力。</p>
+            <p>结合建筑模型、鱼眼相机与 RTK/PDR 信息进行因子图优化。</p>
           </article>
           <article class="platform-item">
             <h3>云端轨迹与行业验证</h3>
-            <p>面向能源、交通和应急场景进行在线轨迹展示、状态监测与任务级评估，推动算法从论文走向现场。</p>
+            <p>面向能源、交通和应急场景进行轨迹展示、状态监测与任务级评估。</p>
           </article>
         </div>
       </div>
@@ -962,90 +975,146 @@
           </div>
           <p>精选与实验室方向高度相关的近年成果，链接指向 DOI 或权威论文条目。</p>
         </div>
-        <div class="publication-list">
+        <div class="publication-grid">
           <article class="publication">
-            <div>
-              <span class="pub-year">2026</span>
-              <span class="pub-type">Journal</span>
-            </div>
-            <div>
-              <h3>Fine-Grained Indoor-Outdoor Scene Recognition: Leveraging Spatio-Temporal Characteristics from Multimodal Sensors via CNN-ViT-TabTransformer Fusion</h3>
+            <a class="pub-figure" href="https://doi.org/10.1109/JSEN.2026.3655120" target="_blank" rel="noopener" aria-label="Fine-Grained Indoor-Outdoor Scene Recognition DOI">
+              <svg viewBox="0 0 640 400" role="img" aria-label="多模态场景识别示意图">
+                <rect width="640" height="400" fill="#edf2f5"/>
+                <rect x="72" y="72" width="188" height="220" fill="#ffffff" stroke="#9aa8b4" stroke-width="3"/>
+                <rect x="310" y="96" width="214" height="188" fill="#f7fafb" stroke="#9aa8b4" stroke-width="3"/>
+                <path d="M96 132h136M96 188h136M96 244h136M350 150h128M350 206h128" stroke="#b6c2cc" stroke-width="5"/>
+                <circle cx="142" cy="142" r="16" fill="#0f766e"/>
+                <circle cx="216" cy="252" r="16" fill="#b45309"/>
+                <circle cx="386" cy="164" r="16" fill="#1f3a5f"/>
+                <path d="M232 168C294 92 366 82 442 130C510 172 520 246 456 278C382 316 278 278 246 222" fill="none" stroke="#a33d2c" stroke-width="8" stroke-linecap="round"/>
+                <path d="M108 330h424" stroke="#1f3a5f" stroke-width="6"/>
+                <path d="M132 330v-34M206 330v-62M280 330v-92M354 330v-76M428 330v-112M502 330v-48" stroke="#0f766e" stroke-width="12" stroke-linecap="round"/>
+              </svg>
+            </a>
+            <div class="pub-body">
+              <div class="pub-kicker"><span>2026</span><span class="pub-type">Journal</span></div>
+              <h3>Fine-Grained Indoor-Outdoor Scene Recognition via Multimodal Sensor Fusion</h3>
               <p class="authors">Jiale Wang, Mingwei Luo, Ziwei Yue, Ming Xia*, Chuang Shi, Fangjiong Chen</p>
               <p class="venue">IEEE Sensors Journal</p>
+              <a class="pub-link" href="https://doi.org/10.1109/JSEN.2026.3655120" target="_blank" rel="noopener">View DOI</a>
             </div>
-            <a class="pub-link" href="https://doi.org/10.1109/JSEN.2026.3655120" target="_blank" rel="noopener">DOI</a>
           </article>
+
           <article class="publication">
-            <div>
-              <span class="pub-year">2025</span>
-              <span class="pub-type">Journal</span>
-            </div>
-            <div>
-              <h3>HPPS: A Head-Mounted Pedestrian Positioning System Integrating Fisheye-Camera/RTK/PDR with Factor Graph Optimization</h3>
+            <a class="pub-figure" href="https://doi.org/10.1109/JIOT.2025.3610186" target="_blank" rel="noopener" aria-label="HPPS DOI">
+              <svg viewBox="0 0 640 400" role="img" aria-label="头戴式行人定位系统示意图">
+                <rect width="640" height="400" fill="#eef3f5"/>
+                <path d="M58 300L582 300M104 260L536 260M150 220L492 220M196 180L448 180" stroke="#b8c4cc" stroke-width="4"/>
+                <path d="M118 92h192v128H118zM360 118h148v160H360z" fill="#ffffff" stroke="#8393a1" stroke-width="3"/>
+                <path d="M200 294C238 226 286 202 334 220C390 240 414 180 480 154" fill="none" stroke="#0f766e" stroke-width="9" stroke-linecap="round"/>
+                <circle cx="482" cy="154" r="18" fill="#a33d2c"/>
+                <circle cx="482" cy="154" r="46" fill="none" stroke="#a33d2c" stroke-width="3" opacity=".35"/>
+                <path d="M292 116c24-30 74-30 98 0v38H292z" fill="#1f3a5f"/>
+                <circle cx="318" cy="154" r="15" fill="#f1bd61"/>
+                <circle cx="364" cy="154" r="15" fill="#f1bd61"/>
+                <path d="M318 154l-76 54M364 154l98 32" stroke="#1f3a5f" stroke-width="5" opacity=".45"/>
+              </svg>
+            </a>
+            <div class="pub-body">
+              <div class="pub-kicker"><span>2025</span><span class="pub-type">Journal</span></div>
+              <h3>HPPS: Head-Mounted Pedestrian Positioning with Fisheye-Camera/RTK/PDR</h3>
               <p class="authors">Ming Xia, Jiale Wang, Yunfeng Shan, Deyou Zhang, Qianhua Yang, Chuang Shi</p>
               <p class="venue">IEEE Internet of Things Journal</p>
+              <a class="pub-link" href="https://doi.org/10.1109/JIOT.2025.3610186" target="_blank" rel="noopener">View DOI</a>
             </div>
-            <a class="pub-link" href="https://doi.org/10.1109/JIOT.2025.3610186" target="_blank" rel="noopener">DOI</a>
           </article>
+
           <article class="publication">
-            <div>
-              <span class="pub-year">2025</span>
-              <span class="pub-type">Journal</span>
-            </div>
-            <div>
-              <h3>Self-Attention-Enhanced PSW-LSTM for 3-D Indoor Pedestrian Positioning With Integrated Wi-Fi, Magnetometer, and Barometer Sensors</h3>
+            <a class="pub-figure" href="https://doi.org/10.1109/TIM.2025.3568977" target="_blank" rel="noopener" aria-label="PSW-LSTM DOI">
+              <svg viewBox="0 0 640 400" role="img" aria-label="三维室内指纹定位示意图">
+                <rect width="640" height="400" fill="#eef2f4"/>
+                <path d="M96 104h230v190H96zM326 104h170v190H326z" fill="#ffffff" stroke="#94a3af" stroke-width="3"/>
+                <path d="M138 144h132M138 196h132M138 248h132M366 146h88M366 198h88M366 250h88" stroke="#c2ccd4" stroke-width="6"/>
+                <path d="M116 316c82-88 158-84 230-34c50 34 96 32 154-12" fill="none" stroke="#1f3a5f" stroke-width="8" stroke-linecap="round"/>
+                <circle cx="152" cy="198" r="12" fill="#0f766e"/>
+                <circle cx="252" cy="152" r="12" fill="#0f766e"/>
+                <circle cx="402" cy="224" r="12" fill="#0f766e"/>
+                <path d="M122 82c36-24 72-24 108 0M144 112c22-14 44-14 66 0M396 82c36-24 72-24 108 0M418 112c22-14 44-14 66 0" fill="none" stroke="#b45309" stroke-width="7" stroke-linecap="round"/>
+                <rect x="514" y="118" width="52" height="148" rx="18" fill="#a33d2c"/>
+              </svg>
+            </a>
+            <div class="pub-body">
+              <div class="pub-kicker"><span>2025</span><span class="pub-type">Journal</span></div>
+              <h3>Self-Attention-Enhanced PSW-LSTM for 3-D Indoor Pedestrian Positioning</h3>
               <p class="authors">Zhanpeng Zhang, Jiale Wang, Ming Xia*, Chuang Shi, Weisong Wen, Deyou Zhang</p>
-              <p class="venue">IEEE Transactions on Instrumentation and Measurement, 74: 2528915</p>
+              <p class="venue">IEEE Transactions on Instrumentation and Measurement</p>
+              <a class="pub-link" href="https://doi.org/10.1109/TIM.2025.3568977" target="_blank" rel="noopener">View DOI</a>
             </div>
-            <a class="pub-link" href="https://doi.org/10.1109/TIM.2025.3568977" target="_blank" rel="noopener">DOI</a>
           </article>
+
           <article class="publication">
-            <div>
-              <span class="pub-year">2025</span>
-              <span class="pub-type">Journal</span>
-            </div>
-            <div>
-              <h3>Urban GNSS Positioning for Consumer Electronics: 3D Mapping and Advanced Signal Processing</h3>
+            <a class="pub-figure" href="https://doi.org/10.1109/TCE.2025.3552892" target="_blank" rel="noopener" aria-label="Urban GNSS DOI">
+              <svg viewBox="0 0 640 400" role="img" aria-label="城市 GNSS 定位示意图">
+                <rect width="640" height="400" fill="#edf2f5"/>
+                <path d="M82 292h82V126H82zM206 292h110V82H206zM358 292h72V150h-72zM472 292h88V108h-88z" fill="#ffffff" stroke="#8d9aa7" stroke-width="3"/>
+                <path d="M100 160h46M100 202h46M226 118h70M226 162h70M226 206h70M488 144h54M488 188h54M488 232h54" stroke="#c0cad2" stroke-width="5"/>
+                <path d="M108 320c98-40 188-44 272-8c52 22 98 20 150-4" fill="none" stroke="#0f766e" stroke-width="9" stroke-linecap="round"/>
+                <circle cx="380" cy="120" r="18" fill="#b45309"/>
+                <path d="M380 120L180 248M380 120l116 142M380 120l-78 162" stroke="#b45309" stroke-width="4" opacity=".42"/>
+                <rect x="266" y="256" width="52" height="76" rx="12" fill="#1f3a5f"/>
+                <circle cx="292" cy="292" r="8" fill="#77d6cb"/>
+                <path d="M128 76c92-42 184-42 276 0" fill="none" stroke="#a33d2c" stroke-width="6" stroke-linecap="round"/>
+              </svg>
+            </a>
+            <div class="pub-body">
+              <div class="pub-kicker"><span>2025</span><span class="pub-type">Journal</span></div>
+              <h3>Urban GNSS Positioning for Consumer Electronics</h3>
               <p class="authors">Jiale Wang, Ming Xia*, Deyou Zhang, Weisong Wen, Wu Chen, Chuang Shi</p>
-              <p class="venue">IEEE Transactions on Consumer Electronics, 71(2): 7059-7072</p>
+              <p class="venue">IEEE Transactions on Consumer Electronics</p>
+              <a class="pub-link" href="https://doi.org/10.1109/TCE.2025.3552892" target="_blank" rel="noopener">View DOI</a>
             </div>
-            <a class="pub-link" href="https://doi.org/10.1109/TCE.2025.3552892" target="_blank" rel="noopener">DOI</a>
           </article>
+
           <article class="publication">
-            <div>
-              <span class="pub-year">2024</span>
-              <span class="pub-type">Journal</span>
-            </div>
-            <div>
+            <a class="pub-figure" href="https://doi.org/10.1088/1361-6501/ad7487" target="_blank" rel="noopener" aria-label="Indoor Altitude Estimation DOI">
+              <svg viewBox="0 0 640 400" role="img" aria-label="室内垂向定位示意图">
+                <rect width="640" height="400" fill="#eef3f5"/>
+                <path d="M124 96h350v64H124zM124 184h350v64H124zM124 272h350v64H124z" fill="#ffffff" stroke="#8d9aa7" stroke-width="3"/>
+                <path d="M166 160v24M236 160v24M306 160v24M376 160v24M446 160v24M166 248v24M236 248v24M306 248v24M376 248v24M446 248v24" stroke="#aab6c0" stroke-width="5"/>
+                <path d="M532 330V92" stroke="#1f3a5f" stroke-width="7" stroke-linecap="round"/>
+                <path d="M532 92l-18 28M532 92l18 28" stroke="#1f3a5f" stroke-width="7" stroke-linecap="round"/>
+                <circle cx="532" cy="230" r="17" fill="#a33d2c"/>
+                <path d="M180 316c48-62 76-76 110-50c32 24 52 8 84-54c28-54 54-70 86-42" fill="none" stroke="#0f766e" stroke-width="8" stroke-linecap="round"/>
+                <path d="M86 336h468" stroke="#b45309" stroke-width="5" opacity=".55"/>
+              </svg>
+            </a>
+            <div class="pub-body">
+              <div class="pub-kicker"><span>2024</span><span class="pub-type">Journal</span></div>
               <h3>Indoor Altitude Estimation Assisted by Inertial Compensation and Online Floor Modeling</h3>
               <p class="authors">Ming Xia, Jiale Wang, Chuang Shi, Weisong Wen</p>
-              <p class="venue">Measurement Science and Technology, 35(12): 126302</p>
+              <p class="venue">Measurement Science and Technology</p>
+              <a class="pub-link" href="https://doi.org/10.1088/1361-6501/ad7487" target="_blank" rel="noopener">View DOI</a>
             </div>
-            <a class="pub-link" href="https://doi.org/10.1088/1361-6501/ad7487" target="_blank" rel="noopener">DOI</a>
           </article>
+
           <article class="publication">
-            <div>
-              <span class="pub-year">2024</span>
-              <span class="pub-type">Journal</span>
-            </div>
-            <div>
-              <h3>Seamless Indoor-Outdoor Foot-Mounted Inertial Pedestrian Positioning System Enhanced by Smartphone PPP/3-D Map/Barometer</h3>
+            <a class="pub-figure" href="https://doi.org/10.1109/JIOT.2023.3337393" target="_blank" rel="noopener" aria-label="Seamless Indoor-Outdoor Positioning DOI">
+              <svg viewBox="0 0 640 400" role="img" aria-label="室内外无缝定位示意图">
+                <rect width="640" height="400" fill="#edf2f5"/>
+                <path d="M68 284h198V130H68z" fill="#ffffff" stroke="#8d9aa7" stroke-width="3"/>
+                <path d="M358 286h210V104H358z" fill="#ffffff" stroke="#8d9aa7" stroke-width="3"/>
+                <path d="M98 170h138M98 218h138M388 144h150M388 192h150M388 240h150" stroke="#c0cad2" stroke-width="5"/>
+                <path d="M92 314C170 252 234 252 290 292C354 338 414 286 468 226C500 190 528 172 560 166" fill="none" stroke="#0f766e" stroke-width="9" stroke-linecap="round"/>
+                <circle cx="92" cy="314" r="12" fill="#1f3a5f"/>
+                <circle cx="560" cy="166" r="14" fill="#a33d2c"/>
+                <path d="M286 86c34-24 68-24 102 0M306 116c20-12 40-12 60 0" fill="none" stroke="#b45309" stroke-width="7" stroke-linecap="round"/>
+                <rect x="284" y="248" width="52" height="72" rx="10" fill="#1f3a5f"/>
+                <circle cx="310" cy="284" r="7" fill="#77d6cb"/>
+                <path d="M266 130h92v48h-92z" fill="#f7fafb" stroke="#aab6c0" stroke-width="3"/>
+              </svg>
+            </a>
+            <div class="pub-body">
+              <div class="pub-kicker"><span>2024</span><span class="pub-type">Journal</span></div>
+              <h3>Seamless Indoor-Outdoor Foot-Mounted Inertial Pedestrian Positioning</h3>
               <p class="authors">Jiale Wang, Chuang Shi, Ming Xia, Fu Zheng, Tuan Li, Yunfeng Shan, Guifei Jing, Wu Chen, T. C. Hsia</p>
-              <p class="venue">IEEE Internet of Things Journal, 11(7): 13051-13069</p>
+              <p class="venue">IEEE Internet of Things Journal</p>
+              <a class="pub-link" href="https://doi.org/10.1109/JIOT.2023.3337393" target="_blank" rel="noopener">View DOI</a>
             </div>
-            <a class="pub-link" href="https://doi.org/10.1109/JIOT.2023.3337393" target="_blank" rel="noopener">DOI</a>
-          </article>
-          <article class="publication">
-            <div>
-              <span class="pub-year">2024</span>
-              <span class="pub-type">Conference</span>
-            </div>
-            <div>
-              <h3>3D Indoor Localization via Universal Signal Fingerprinting Powered by LSTM</h3>
-              <p class="authors">Zhanpeng Zhang, Ming Xia, Jiale Wang, Weisong Wen, Chuang Shi, Yunfeng Shan, Xinqi Tian</p>
-              <p class="venue">IPIN 2024</p>
-            </div>
-            <a class="pub-link" href="https://doi.org/10.1109/IPIN62893.2024.10786173" target="_blank" rel="noopener">DOI</a>
           </article>
         </div>
         <div class="publications-footer">
